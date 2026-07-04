@@ -2,6 +2,7 @@ import time
 import random
 import secrets
 import hashlib
+from Crypto.Util.number import getPrime
 class diffie_hellman:
     def __init__(self, p: int, g: int):
         self.p = p
@@ -35,7 +36,7 @@ class diffie_hellman:
     def compute_shared_secret(self, other_public_key):
         if self.private_key is None:
             raise ValueError("Private key not generated yet.")
-        return pow(other_public_key, self.private_key)%self.p
+        return pow(other_public_key, self.private_key, self.p)
 def getkey_from_shared_secret(shared_secret):
     shared_secret_bytes = shared_secret.to_bytes((shared_secret.bit_length() + 7) // 8, byteorder='big')
     key = hashlib.sha256(shared_secret_bytes).digest()[:16]

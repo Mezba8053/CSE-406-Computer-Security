@@ -2,8 +2,9 @@ import socket
 import pickle
 from dh import diffie_hellman, getkey_from_shared_secret
 from aes import aes
+from runner import runner
 sock = socket.socket()
-sock.connect(("localhost",5000))
+sock.connect(("localhost",5001))
 
 p = diffie_hellman(0, 0).generate_prime_number(128)
 dh = diffie_hellman(p, 2)
@@ -23,6 +24,8 @@ sock.sendall(
 )
 
 reply = pickle.loads(sock.recv(4096))
+print("Enter Message to send to Bob:")
+message = input()
 
 B = reply["B"]
 
@@ -32,6 +35,6 @@ aes_key = getkey_from_shared_secret(shared)
 
 cipher = aes(aes_key)
 
-ciphertext = cipher.encrypt_cbc("Hello Bob!")
+ciphertext = cipher.encrypt_cbc(message)
 
 sock.sendall(ciphertext)
