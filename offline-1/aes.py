@@ -9,7 +9,7 @@ import hashlib
 
 class aes:
     def __init__(self, key):
-        random.seed(42)  # For reproducibility in testing
+        random.seed(42)  
         if isinstance(key, str):
             key = key.encode('utf-8')
         if len(key) < 16:
