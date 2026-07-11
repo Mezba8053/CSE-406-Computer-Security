@@ -2,22 +2,45 @@ import time
 import random
 import secrets
 import hashlib
-from Crypto.Util.number import getPrime
 class diffie_hellman:
     def __init__(self, p: int, g: int):
         self.p = p
         self.g = g
         self.private_key = None
         self.public_key = None
-        # random.seed(42) 
+        random.seed(42) 
+    def is_prime(self, n, k=40):
+        if n <= 1:
+            return False
+        if n <= 3:
+            return True
+        if n % 2 == 0:
+            return False
+        r, d = 0, n - 1
+        while d % 2 == 0:
+            d //= 2
+            r += 1
+        for _ in range(k):
+            a = random.randint(2, n - 2)
+            x = pow(a, d, n)
+            if x == 1 or x == n - 1:
+                continue
+            for _ in range(r - 1):
+                x = pow(x, 2, n)
+                if x == n - 1:
+                    break
+            else:
+                return False
+        return True
     def generate_prime_number(self,key_size):
+
         if key_size not in [128, 192, 256]:
             raise ValueError("Key size must be exactly 128, 192, or 256 bits.")
-
-        prime = getPrime(key_size)
-        return prime
+        while True:
+            candidate = secrets.randbits(key_size) | (1 << (key_size - 1)) | 1
+            if self.is_prime(candidate):
+                return candidate
     def generate_generator(self):
-        
         while True:
             g = random.randint(2, self.p - 1)
             if pow(g, (self.p - 1) // 2, self.p) != 1: 
