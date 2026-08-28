@@ -1,0 +1,3 @@
+node_modules/
+mysql-init/01-academy-schema.sql
+mysql-init/02-community-schema.sql

@@ -1,0 +1,15 @@
+{
+  "name": "exam-web-security-practice-lab",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Deliberately vulnerable localhost-only SQLi, XSS, and CSRF exam lab",
+  "scripts": {
+    "generate-seed": "node scripts/generate-seed.js",
+    "start:academy": "node academy-site/server.js",
+    "start:community": "node community-site/server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "mysql2": "^3.11.0"
+  }
+}
